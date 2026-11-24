@@ -342,13 +342,24 @@
   // ---- build --------------------------------------------------------------
   function build() {
     var header = el("header", { class: "site-header" }, [
+      el("div", { class: "hero-glow" }),
       el("div", { class: "wrap" }, [
-        el("div", { class: "brand-row" }, [
+        el("div", { class: "brand-lockup" }, [
           el("span", { class: "brand", text: C.meta.brand }),
-          el("h1", { class: "site-title", text: C.meta.title }),
+          C.meta.eyebrow
+            ? el("span", { class: "brand-eyebrow" }, [
+                el("span", { class: "dot" }),
+                C.meta.eyebrow,
+              ])
+            : null,
         ]),
-        el("p", { class: "site-subtitle", text: C.meta.subtitle }),
-        el("p", { class: "site-tagline", text: C.meta.tagline }),
+        el("h1", { class: "site-title", text: C.meta.title }),
+        (C.meta.chips && C.meta.chips.length)
+          ? el("div", { class: "hero-chips" }, C.meta.chips.map(function (c) {
+              return el("span", { class: "chip", text: c });
+            }))
+          : null,
+        C.meta.tagline ? el("p", { class: "site-tagline", text: C.meta.tagline }) : null,
       ]),
     ]);
 

@@ -17,8 +17,9 @@ const CONTENT = {
   // ---- Header -------------------------------------------------------------
   meta: {
     brand: "HitPay",
-    title: "Build with AI — Manila",
-    subtitle: "Workshop resources · Friday 27 Nov · Common Ground, McKinley",
+    eyebrow: "Build with AI",
+    title: "Manila — Workshop Resources",
+    chips: ["Fri 27 Nov", "Common Ground, McKinley"],
     tagline:
       "Open this on your laptop during the session. Download files and copy prompts straight from here.",
   },
