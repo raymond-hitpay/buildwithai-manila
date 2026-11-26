@@ -5,3 +5,15 @@ node_modules/
 .playwright-mcp/
 *.png
 .gstack/
+
+# Env (keep .env.local.example tracked)
+.env
+.env.local
+.env*.local
+
+# Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo

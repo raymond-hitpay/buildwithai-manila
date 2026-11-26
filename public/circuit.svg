@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 460" fill="none" preserveAspectRatio="xMidYMin slice">
+  <g stroke="#bcd0f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+    <path d="M 70 0 L 70 71 L 30 71 L 30 142"/>
+    <path d="M 160 0 L 160 88 L 160 155"/>
+    <path d="M 290 0 L 290 77 L 181 77 L 181 152"/>
+    <path d="M 369 0 L 369 84 L 322 84 L 322 170 L 402 170"/>
+    <path d="M 464 0 L 464 98 L 393 98 L 393 168 L 393 295 L 490 295"/>
+    <path d="M 575 0 L 575 125 L 634 125 L 634 247 L 554 247"/>
+    <path d="M 648 0 L 648 123 L 648 241 L 574 241 L 574 361 L 574 433"/>
+    <path d="M 722 0 L 722 117 L 806 117 L 806 179 L 806 284 L 703 284"/>
+    <path d="M 844 0 L 844 76 L 844 186 L 894 186 L 894 267 L 951 267"/>
+    <path d="M 948 0 L 948 95 L 948 200 L 948 308 L 948 387 L 879 387"/>
+    <path d="M 1024 0 L 1024 122 L 1024 205 L 966 205"/>
+    <path d="M 1117 0 L 1117 100 L 1117 225 L 1117 291 L 1207 291 L 1207 402 L 1298 402"/>
+    <path d="M 1224 0 L 1224 116 L 1270 116 L 1270 189 L 1162 189"/>
+    <path d="M 1297 0 L 1297 63 L 1209 63 L 1209 142 L 1209 246 L 1209 366 L 1308 366"/>
+    <path d="M 1425 0 L 1425 78 L 1498 78 L 1498 199"/>
+    <path d="M 1527 0 L 1527 127 L 1420 127 L 1420 225"/>
+  </g>
+  <g fill="#aec6ee">
+    <circle cx="30" cy="142" r="4.5"/>
+    <circle cx="70" cy="76" r="4.5"/>
+    <circle cx="160" cy="155" r="4.5"/>
+    <circle cx="160" cy="68" r="4.5"/>
+    <circle cx="181" cy="152" r="4.5"/>
+    <circle cx="290" cy="63" r="4.5"/>
+    <circle cx="402" cy="170" r="4.5"/>
+    <circle cx="369" cy="98" r="4.5"/>
+    <circle cx="490" cy="295" r="4.5"/>
+    <circle cx="464" cy="58" r="4.5"/>
+    <circle cx="554" cy="247" r="4.5"/>
+    <circle cx="575" cy="129" r="4.5"/>
+    <circle cx="574" cy="433" r="4.5"/>
+    <circle cx="703" cy="284" r="4.5"/>
+    <circle cx="722" cy="236" r="4.5"/>
+    <circle cx="951" cy="267" r="4.5"/>
+    <circle cx="879" cy="387" r="4.5"/>
+    <circle cx="966" cy="205" r="4.5"/>
+    <circle cx="1024" cy="87" r="4.5"/>
+    <circle cx="1298" cy="402" r="4.5"/>
+    <circle cx="1117" cy="74" r="4.5"/>
+    <circle cx="1162" cy="189" r="4.5"/>
+    <circle cx="1224" cy="86" r="4.5"/>
+    <circle cx="1308" cy="366" r="4.5"/>
+    <circle cx="1297" cy="199" r="4.5"/>
+    <circle cx="1498" cy="199" r="4.5"/>
+    <circle cx="1425" cy="42" r="4.5"/>
+    <circle cx="1420" cy="225" r="4.5"/>
+  </g>
+</svg>
