@@ -21,7 +21,8 @@ export type IconName =
   | "docs"
   | "instagram"
   | "linkedin"
-  | "facebook";
+  | "facebook"
+  | "tiktok";
 
 export interface Prompt {
   text: string;
@@ -576,6 +577,7 @@ Done when: My store is live at a public Vercel URL that opens on desktop and pho
               icon: "linkedin",
             },
             { label: "Facebook", href: "https://www.facebook.com/hitpayapp", icon: "facebook" },
+            { label: "TikTok", href: "https://www.tiktok.com/@hitpayapp", icon: "tiktok" },
           ],
         },
         {

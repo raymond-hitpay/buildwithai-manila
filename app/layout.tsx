@@ -58,6 +58,9 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       className={`${jakarta.variable} ${jetbrains.variable}`}
+      // Browser extensions (e.g. Scribe recorder) inject attributes on <html>
+      // before hydration; ignore the resulting attribute mismatch on this node.
+      suppressHydrationWarning
     >
       <body>
         <AuthProvider>

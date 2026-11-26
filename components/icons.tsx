@@ -18,6 +18,8 @@ const PATHS: Record<Exclude<IconName, "hitpay">, string> = {
     "M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.8 0 0 .78 0 1.73v20.54C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .78 23.2 0 22.22 0z",
   facebook:
     "M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.01 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.89v2.25h3.32l-.53 3.49h-2.79V24C19.61 23.08 24 18.09 24 12.07z",
+  tiktok:
+    "M12.53.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z",
 };
 
 const TILE_BG: Record<IconName, string> = {
@@ -31,6 +33,7 @@ const TILE_BG: Record<IconName, string> = {
   instagram: "#e1306c",
   linkedin: "#0a66c2",
   facebook: "#1877f2",
+  tiktok: "#010101",
 };
 
 export function PrereqIcon({ name, size = 42 }: { name: IconName; size?: number }) {
@@ -62,32 +65,16 @@ export function PrereqIcon({ name, size = 42 }: { name: IconName; size?: number 
   );
 }
 
-/* Department of Trade and Industry (Philippines) — simplified recreation. */
+/* Department of Trade and Industry (Philippines) — official logo. */
 export function DtiLogo() {
   return (
-    <svg
-      viewBox="0 0 196 74"
+    <Image
+      src="/dti-logo.svg"
+      alt="Department of Trade and Industry, Philippines"
+      width={62}
+      height={62}
       className="h-[clamp(42px,6.2vw,62px)] w-auto"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="DTI Philippines"
-    >
-      <g transform="translate(122 3)">
-        <circle cx="11" cy="11" r="11" fill="#f4c20d" />
-        <ellipse cx="11" cy="11" rx="11" ry="3.4" fill="#d81f2a" />
-        <g fill="none" stroke="#163f91" strokeWidth="1.3" opacity="0.9">
-          <circle cx="11" cy="11" r="11" />
-          <ellipse cx="11" cy="11" rx="4.6" ry="11" />
-          <line x1="11" y1="0" x2="11" y2="22" />
-        </g>
-      </g>
-      <text x="0" y="54" fontWeight="800" fontSize="52" letterSpacing="-1" fill="#163f91">
-        dti
-      </text>
-      <text x="2" y="70" fontWeight="700" fontSize="11" letterSpacing="4.5" fill="#d81f2a">
-        PHILIPPINES
-      </text>
-    </svg>
+    />
   );
 }
 
