@@ -30,10 +30,12 @@ export function SubmissionCard({
   reactionCounts,
   myReactions,
   isOwner,
+  refreshing,
   onVote,
   onReact,
   onShowQr,
   onDelete,
+  onRefresh,
 }: {
   submission: Submission;
   voteCount: number;
@@ -41,10 +43,12 @@ export function SubmissionCard({
   reactionCounts: Record<string, number>;
   myReactions: Set<string>;
   isOwner: boolean;
+  refreshing: boolean;
   onVote: () => void;
   onReact: (emoji: string) => void;
   onShowQr: () => void;
   onDelete: () => void;
+  onRefresh: () => void;
 }) {
   const [imgFailed, setImgFailed] = useState(false);
   const img = !imgFailed && s.image_url ? s.image_url : screenshotFallback(s.url);
@@ -174,23 +178,50 @@ export function SubmissionCard({
           </div>
 
           {isOwner && (
-            <button
-              type="button"
-              onClick={onDelete}
-              title="Delete your submission"
-              aria-label="Delete submission"
-              className="flex-none rounded-full border border-line p-2 text-muted opacity-0 transition-all hover:border-[#f3cf96] hover:bg-warn-bg hover:text-warn-ink focus-visible:opacity-100 group-hover:opacity-100"
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path
-                  d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.6 12a2 2 0 0 1-2 1.9H8.6a2 2 0 0 1-2-1.9L6 7"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            <div className="flex flex-none items-center gap-1.5">
+              <button
+                type="button"
+                onClick={onRefresh}
+                disabled={refreshing}
+                title="Refresh preview"
+                aria-label="Refresh preview"
+                className="rounded-full border border-line p-2 text-muted opacity-0 transition-all hover:border-blue-line hover:bg-blue-soft hover:text-blue focus-visible:opacity-100 group-hover:opacity-100 disabled:opacity-100"
+              >
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden
+                  className={refreshing ? "animate-spin" : undefined}
+                >
+                  <path
+                    d="M20 11a8 8 0 0 0-14.584-4.584M4 4v4h4M4 13a8 8 0 0 0 14.584 4.584M20 20v-4h-4"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={onDelete}
+                title="Delete your submission"
+                aria-label="Delete submission"
+                className="rounded-full border border-line p-2 text-muted opacity-0 transition-all hover:border-[#f3cf96] hover:bg-warn-bg hover:text-warn-ink focus-visible:opacity-100 group-hover:opacity-100"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path
+                    d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.6 12a2 2 0 0 1-2 1.9H8.6a2 2 0 0 1-2-1.9L6 7"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
           )}
         </div>
       </div>

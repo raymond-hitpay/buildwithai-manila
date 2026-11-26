@@ -8,7 +8,7 @@ import { SubmissionCard } from "./submission-card";
 import { QrCode } from "./qr-code";
 import { Raffle } from "./raffle";
 
-type Sort = "top" | "new";
+type Sort = "top" | "new" | "mine";
 
 export function ShowcaseClient() {
   const supabase = getSupabase();
@@ -37,6 +37,7 @@ export function ShowcaseClient() {
   const [qrModal, setQrModal] = useState<Submission | null>(null);
   const [raffleOpen, setRaffleOpen] = useState(false);
   const [pageUrl, setPageUrl] = useState("");
+  const [refreshingId, setRefreshingId] = useState<string | null>(null);
 
   useEffect(() => {
     setPageUrl(window.location.origin + "/showcase");
@@ -129,7 +130,10 @@ export function ShowcaseClient() {
   }, [reactions, user]);
 
   const sorted = useMemo(() => {
-    const list = [...submissions];
+    const list =
+      sort === "mine"
+        ? submissions.filter((s) => s.user_id === user?.id)
+        : [...submissions];
     if (sort === "top") {
       list.sort((a, b) => {
         const diff = (voteCounts[b.id] ?? 0) - (voteCounts[a.id] ?? 0);
@@ -140,7 +144,7 @@ export function ShowcaseClient() {
       list.sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at));
     }
     return list;
-  }, [submissions, sort, voteCounts]);
+  }, [submissions, sort, voteCounts, user]);
 
   // --- actions -------------------------------------------------------------
   async function onAddLink(e: React.FormEvent) {
@@ -248,6 +252,29 @@ export function ShowcaseClient() {
     setSubmissions((prev) => prev.filter((x) => x.id !== s.id));
     const { error } = await supabase.from("submissions").delete().eq("id", s.id);
     if (error) reload();
+  }
+
+  async function refreshPreview(s: Submission) {
+    if (!supabase || !user || refreshingId) return;
+    setRefreshingId(s.id);
+    try {
+      const res = await fetch(`/api/preview?url=${encodeURIComponent(s.url)}`);
+      const data = await res.json();
+      if (!res.ok) return;
+      const { error } = await supabase
+        .from("submissions")
+        .update({
+          title: (data.title ?? s.title).slice(0, 160),
+          description: (data.description ?? "").slice(0, 400) || null,
+          image_url: data.image,
+          favicon_url: data.favicon,
+          domain: data.domain,
+        })
+        .eq("id", s.id);
+      if (!error) reload();
+    } finally {
+      setRefreshingId(null);
+    }
   }
 
   // --- not configured ------------------------------------------------------
@@ -430,11 +457,14 @@ export function ShowcaseClient() {
         {/* Toolbar */}
         <div className="mt-8 mb-5 flex items-center justify-between">
           <div className="inline-flex rounded-full border border-line bg-white p-1">
-            {(["top", "new"] as Sort[]).map((s) => (
+            {(["top", "new", "mine"] as Sort[]).map((s) => (
               <button
                 key={s}
                 type="button"
-                onClick={() => setSort(s)}
+                onClick={() => {
+                  if (s === "mine" && !requireAuth()) return;
+                  setSort(s);
+                }}
                 className={`rounded-full px-4 py-1.5 text-[0.88rem] font-bold capitalize transition-colors ${
                   sort === s ? "bg-navy text-white" : "text-muted hover:text-navy"
                 }`}
@@ -444,7 +474,7 @@ export function ShowcaseClient() {
             ))}
           </div>
           <span className="text-[0.88rem] font-semibold text-muted">
-            {submissions.length} {submissions.length === 1 ? "project" : "projects"}
+            {sorted.length} {sorted.length === 1 ? "project" : "projects"}
           </span>
         </div>
 
@@ -459,7 +489,19 @@ export function ShowcaseClient() {
             ))}
           </div>
         ) : sorted.length === 0 ? (
-          <EmptyState onAdd={() => document.querySelector<HTMLInputElement>("input[inputmode='url']")?.focus()} />
+          sort === "mine" ? (
+            <MineEmptyState
+              onAdd={() =>
+                document.querySelector<HTMLInputElement>("input[inputmode='url']")?.focus()
+              }
+            />
+          ) : (
+            <EmptyState
+              onAdd={() =>
+                document.querySelector<HTMLInputElement>("input[inputmode='url']")?.focus()
+              }
+            />
+          )
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {sorted.map((s) => (
@@ -471,10 +513,12 @@ export function ShowcaseClient() {
                 reactionCounts={reactionCounts[s.id] ?? {}}
                 myReactions={myReactions[s.id] ?? new Set()}
                 isOwner={user?.id === s.user_id}
+                refreshing={refreshingId === s.id}
                 onVote={() => toggleVote(s)}
                 onReact={(emoji) => toggleReaction(s, emoji)}
                 onShowQr={() => setQrModal(s)}
                 onDelete={() => deleteSubmission(s)}
+                onRefresh={() => refreshPreview(s)}
               />
             ))}
           </div>
@@ -536,6 +580,26 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
       <h2 className="text-[1.4rem] font-extrabold text-navy">Be the first to share</h2>
       <p className="mx-auto mt-1.5 max-w-[42ch] text-muted">
         Paste a link to the site you built today. Everyone can react and upvote — live.
+      </p>
+      <button
+        type="button"
+        onClick={onAdd}
+        className="mt-5 rounded-full px-6 py-3 font-bold text-white shadow-[0_8px_20px_rgba(36,101,222,0.32)]"
+        style={{ background: "linear-gradient(135deg,#2f6bf2 0%,#3f7bef 100%)" }}
+      >
+        Add your project
+      </button>
+    </div>
+  );
+}
+
+function MineEmptyState({ onAdd }: { onAdd: () => void }) {
+  return (
+    <div className="rounded-[var(--radius-card)] border border-dashed border-blue-line bg-white/60 py-16 text-center">
+      <span className="mb-2 block text-5xl">🙋</span>
+      <h2 className="text-[1.4rem] font-extrabold text-navy">You haven&apos;t shared anything yet</h2>
+      <p className="mx-auto mt-1.5 max-w-[42ch] text-muted">
+        Paste a link to the site you built today — it&apos;ll show up here.
       </p>
       <button
         type="button"
