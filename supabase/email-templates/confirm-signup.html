@@ -1,0 +1,48 @@
+<!--
+  Supabase → Authentication → Email Templates → "Confirm signup"
+  Paste this into the HTML body field. Subject line to set alongside it:
+    Confirm your email — Build with AI, Manila
+-->
+<div style="background:#f9f9f6;padding:32px 16px;font-family:'Plus Jakarta Sans',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;margin:0 auto;">
+    <tr>
+      <td style="background:#ffffff;border:1px solid #e7eaf1;border-radius:16px;padding:40px 36px;">
+
+        <p style="margin:0 0 20px;font-size:13px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#2f6bf2;">
+          HitPay · Build with AI — Manila
+        </p>
+
+        <h1 style="margin:0 0 12px;font-size:24px;font-weight:800;color:#0e2859;line-height:1.25;">
+          Confirm your email
+        </h1>
+
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.6;color:#5c6b85;">
+          Follow the link below to confirm <strong style="color:#16233d;">{{ .Email }}</strong> and finish
+          joining the Showcase — then you can submit your project and vote on others.
+        </p>
+
+        <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+          <tr>
+            <td style="border-radius:10px;background:#2f6bf2;">
+              <a href="{{ .ConfirmationURL }}"
+                 style="display:inline-block;padding:14px 28px;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:10px;">
+                Confirm email address
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#8b96ab;">
+          If you didn't request this, you can safely ignore this email. This link expires soon,
+          so confirm while you're still at the session.
+        </p>
+
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px 8px 0;text-align:center;font-size:12px;color:#8b96ab;">
+        Sent for {{ .SiteURL }}
+      </td>
+    </tr>
+  </table>
+</div>
