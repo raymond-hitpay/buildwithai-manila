@@ -61,8 +61,10 @@ pulls a title / description / UI preview automatically, and everyone can upvote
 and react to each entry — updating in real time. There's a **Scan to join** QR
 for the page and a per-project QR to open any site on a phone.
 
-Everything runs on **Supabase** (Postgres + Auth + Realtime). Sign-in is a
-**magic link** emailed to the attendee — no passwords.
+Everything runs on **Supabase** (Postgres + Auth + Realtime). Sign-in is
+**anonymous** — attendees just type a display name, no email or password. This
+sidesteps Supabase's email-sending rate limit, which the default shared SMTP
+can't handle for a room full of attendees.
 
 ### One-time setup
 
@@ -78,10 +80,9 @@ Everything runs on **Supabase** (Postgres + Auth + Realtime). Sign-in is a
    ```
    On Vercel, add the same two variables under **Project → Settings → Environment
    Variables**.
-4. **Allow the redirect.** In Supabase → **Authentication → URL Configuration**,
-   set the Site URL and add your deploy URL + `/showcase` to the redirect
-   allow-list (and `http://localhost:3000/showcase` for local dev) so magic links
-   return to the right place.
+4. **Enable anonymous sign-ins.** In Supabase → **Authentication → Settings**,
+   turn on **Allow anonymous sign-ins**. Without this, joining the showcase
+   fails with an "Anonymous sign-ins are disabled" error.
 
 Until the env vars are set, `/showcase` shows a friendly "needs Supabase" panel
 instead of the gallery, so the rest of the site is unaffected.

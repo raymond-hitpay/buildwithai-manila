@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import type {
   BannerBlock,
@@ -31,13 +34,15 @@ function isStructured(text: string): boolean {
   return /^(Goal|Context|Limits|Done when):/m.test(text);
 }
 
-/** Clipboard text: strip the section labels, join the bodies into clean prose. */
+/**
+ * Clipboard text: copy the prompt exactly as written, Goal/Context/Limits/Done
+ * when labels included. Stripping the labels used to read as one run-on
+ * paragraph where "Done when" sentences (written as end states, e.g. "My
+ * website is live…") sounded like false claims rather than completion
+ * criteria — keeping the labels preserves the intended meaning.
+ */
 function toCopyText(text: string): string {
-  if (!isStructured(text)) return text;
-  return parsePrompt(text)
-    .map((s) => s.body.trim())
-    .filter(Boolean)
-    .join(" ");
+  return text;
 }
 
 /** Highlight [placeholders] within a single line of prose. */
@@ -184,6 +189,13 @@ function PromptCard({ badge, p }: { badge: string; p: Prompt }) {
 
 /* ---- step -------------------------------------------------------------- */
 function Step({ block }: { block: StepBlock }) {
+  const [urlValue, setUrlValue] = useState("");
+  const token = block.urlField?.token;
+  const filled = token && urlValue.trim() ? urlValue.trim() : null;
+  const prompts = filled
+    ? block.prompts.map((p) => ({ ...p, text: p.text.split(token!).join(filled) }))
+    : block.prompts;
+
   return (
     <section className="mb-8 scroll-mt-24" id={block.anchor}>
       <div className="mb-3 flex flex-wrap items-center gap-2.5">
@@ -202,7 +214,19 @@ function Step({ block }: { block: StepBlock }) {
         )}
       </div>
       {block.downloads?.map((d, i) => <DownloadRow key={i} def={d} />)}
-      {block.prompts.map((p, i) => (
+      {block.urlField && (
+        <label className="mb-4 flex flex-col gap-1.5">
+          <span className="text-[0.9rem] font-semibold text-muted">{block.urlField.label}</span>
+          <input
+            type="url"
+            value={urlValue}
+            onChange={(e) => setUrlValue(e.target.value)}
+            placeholder={block.urlField.inputPlaceholder}
+            className="w-full max-w-[420px] rounded-xl border border-line bg-beige px-4 py-2.5 text-[0.95rem] outline-none focus:border-blue-line focus:bg-white"
+          />
+        </label>
+      )}
+      {prompts.map((p, i) => (
         <PromptCard key={i} badge={block.badge} p={p} />
       ))}
       {block.result && (

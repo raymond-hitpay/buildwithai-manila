@@ -49,6 +49,8 @@ export interface StepBlock {
   badgeNote?: string;
   optional?: boolean; // renders an "Optional" tag on the step
   downloads?: FileButton[];
+  /** Renders a text input; typing into it replaces `token` in every prompt below (on screen and on copy). */
+  urlField?: { label: string; inputPlaceholder: string; token: string };
   prompts: Prompt[];
   result?: string; // "✅ You should see …" success line
   warning?: string;
@@ -271,10 +273,7 @@ export const CONTENT = {
           title: "Make a usable file",
           prompts: [
             {
-              text: `Goal: Create a clean, simple HTML sales summary from the three sales files in this folder.
-Context: The files are exports from HitPay, Lazada, and ShopeePay. Use the customer-paid amount before payment fees: HitPay Charge Amount, Lazada Total Paid, and ShopeePay Order Amount. Count only succeeded HitPay transactions, delivered Lazada orders, and completed ShopeePay transactions.
-Limits: Keep the original files unchanged. Don't include buyer or customer names. Don't treat refunded, shipped, or other non-qualifying records as completed sales. Show the number of excluded records by platform. Label the figures as customer-paid sales before payment fees, since the exports don't provide the same fee information for every platform.
-Done when: Save a single file named sales-summary.html in this folder. It should show the sales total for each platform, the overall total, the best sales day across all platforms, and a simple bar chart comparing platform totals. Include a short note explaining which records were counted and excluded. Tell me when it's ready to open in a browser.`,
+              text: "Create an interactive sales dashboard from the HitPay, Lazada, and ShopeePay files in this folder. Include filters for date, platform, product, channel, and buyer, plus a search box. Show filtered customer-paid sales before payment fees, sales by platform, and product, channel, and buyer breakdowns. Include a table of qualifying sales records.",
             },
           ],
           footnote:
@@ -295,11 +294,6 @@ Done when: Save a single file named sales-summary.html in this folder. It should
         "Turn your real business into a modern site, then teach Codex your brand so it can keep writing for you.",
       blocks: [
         {
-          type: "note",
-          emoji: "📘",
-          text: "Read this first — paste it to Codex once at the start: \"I'm not a developer. Explain each step in simple language. When you need me to do something, tell me exactly where to click and what to look for. Before any step that depends on information or a choice from me, ask me first. Don't assume I know how to use the terminal, GitHub, or Vercel.\"",
-        },
-        {
           type: "download",
           style: "download",
           label: "Sample business kit (logo, photos, About text)",
@@ -312,13 +306,19 @@ Done when: Save a single file named sales-summary.html in this folder. It should
           anchor: "website-step-0",
           badge: "Website · Step 0",
           title: "Understand the business",
+          urlField: {
+            label: "Your current website (optional)",
+            inputPlaceholder: "https://yoursite.com",
+            token: "[paste your current website URL]",
+          },
           prompts: [
             {
-              note: "What this does: Codex interviews you and inspects any files in your folder, then writes a brief for you to approve. Nothing gets built yet.",
+              tip: "Paste this to Codex once at the start: \"I'm not a developer. Explain each step in simple language. Tell me exactly where to click and what to look for, and ask me before any step that depends on a choice from me. Don't assume I know how to use the terminal, GitHub, or Vercel.\"",
+              note: "What this does: Codex interviews you about your business, then writes a brief for you to approve. Nothing gets built yet.",
               text: `Goal: I want to build a new website for my business. Before we plan or build anything, understand my business and current website first.
-Context: My current website is [paste your current website URL]. Sites I like (optional): [paste 1–2 links]. Also look at any files in this folder (logo, photos, About text).
-Limits: Don't plan or build anything yet. Interview me one question at a time. Tell me what you found in the files and let me correct it — don't assume facts about my business.
-Done when: You've written site-brief.md covering my business, customers, the pages I need and the look I want — and I've reviewed and approved it.`,
+Context: My current website is [paste your current website URL].
+Limits: Don't plan or build anything yet. Interview me one question at a time — including why I'm redesigning [e.g. it looks dated, I need more sales, I'm rebranding] and what style I want [e.g. modern, playful, minimal, luxury, plus any sites whose look I like]. Tell me what you found and let me correct it — don't assume facts about my business.
+Done when: You should come up with a site-brief.md covering my business, customers, the purpose of this redesign, the pages I need, and the style and look I want, then show it to me to review and approve.`,
             },
           ],
           result: "a site-brief.md you can open and correct.",
@@ -328,14 +328,14 @@ Done when: You've written site-brief.md covering my business, customers, the pag
           anchor: "website-step-1",
           badge: "Website · Step 1",
           title: "Plan, build & publish",
-          badgeNote: "Turn on Plan mode: Shift + Tab",
           prompts: [
             {
+              tip: "This prompt already asks Codex to plan first and pause for your OK — no need to turn on Plan mode separately.",
               note: "What this does: one prompt takes you from plan to live website. Codex pauses between stages so you stay in control — approve the plan, preview the build, then it puts you online with GitHub + Vercel.",
               text: `Goal: Plan, build, and publish a modern, mobile-friendly website for my business, ending with a live public link I can share.
 Context: Use the approved site-brief.md and the logo and photos in this folder. Build with Next.js, save it to GitHub, and publish it with Vercel. I'm not a developer and I haven't used the terminal, GitHub, or Vercel before.
-Limits: Work in stages and pause for my approval between each one — (1) show me the plan (pages, sections, visual direction) and wait for my OK before building; (2) build it and help me open it in my browser; (3) save it to a new GitHub repo called my-website; (4) publish it with Vercel. Keep my existing text, prices and contact details, and don't invent business facts. Whenever you need me to sign in, authorize access, or choose a setting, say in one sentence what the tool is, then give me exact click-by-click directions — tell me what to click and what to look for — and wait for me.
-Done when: My website is live at a public Vercel URL that opens in my browser, works at desktop and phone widths, its code is in a GitHub repo called my-website, and you've shown me how to make a change and redeploy.`,
+Limits: Work in stages and pause for my approval between each one — (1) show me the plan (pages, sections, visual direction) and wait for my OK before building; (2) build it and help me open it in my browser; (3) save it to a new GitHub repo; (4) publish it with Vercel. Keep my existing text, prices and contact details, and don't invent business facts. Whenever you need me to sign in, authorize access, or choose a setting, say in one sentence what the tool is, then give me exact click-by-click directions — tell me what to click and what to look for — and wait for me.
+Done when: My website is live at a public Vercel URL that opens in my browser, works at desktop and phone widths, its code is in a GitHub repo, and you've shown me how to make a change and redeploy.`,
             },
           ],
           result:
@@ -419,55 +419,51 @@ Done when: I can open the Blog page in my browser, see the posts newest first, a
       number: "3",
       kind: "module",
       icon: "🛒",
-      title: "Online store with HitPay checkout",
-      cardTitle: "Online store with HitPay checkout",
+      title: "Build a checkout with HitPay",
+      cardTitle: "Build a checkout with HitPay",
       intro:
-        "Build a real store — a cart, a database, and live HitPay payments — then put it online with a public link you can share.",
+        "Build a real checkout — a cart, a database, and live HitPay payments — for whatever you're selling or booking, then put it online with a public link you can share.",
       blocks: [
-        {
-          type: "note",
-          emoji: "📘",
-          text: "Read this first — paste it to Codex once at the start: \"I'm not a developer. Explain each step in simple language. When you need me to do something, tell me exactly where to click and what to look for. Before any step that depends on information or a choice from me, ask me first. Don't assume I know how to use the terminal, GitHub, Supabase, or Vercel.\"",
-        },
         {
           type: "step",
           anchor: "store-step-1",
-          badge: "Store · Step 1",
-          title: "Build the store",
+          badge: "Checkout · Step 1",
+          title: "Build the checkout flow",
           prompts: [
             {
-              note: "What this does: Codex builds a simple store you can click through — a product grid and a working cart — all on your computer. No database or payments yet; those come next.",
-              text: `Goal: Build an online store web app with a product grid and a shopping cart.
-Context: Start with 3 sample products (name, price, photo, short description), built in Next.js so we can add a database, HitPay payments — and put it online — in the next steps.
-Limits: No payments yet. Keep it simple and mobile-friendly, since most customers shop on their phone.
-Done when: I can browse the 3 products and add, remove and change quantities in the cart, in my browser.`,
+              tip: "Paste this to Codex once at the start: \"I'm not a developer. Explain each step in simple language. When you need me to do something, tell me exactly where to click and what to look for. Before any step that depends on information or a choice from me, ask me first. Don't assume I know how to use the terminal, GitHub, Supabase, or Vercel.\"",
+              note: "What this does: Codex builds a simple, clickable version — a list of what you're selling or booking, plus a working cart — all on your computer. No database or payments yet; those come next.",
+              text: `Goal: Build a [e.g. ecommerce checkout, salon or spa booking, event ticket sales, class or workshop enrollment, equipment or venue rental] web app with a product or service list and a working cart.
+Context: Start with 10 sample items (name, price, photo, short description) that fit what I'm building. Build it in Next.js so we can add a database, HitPay payments — and put it online — in the next steps.
+Limits: No payments yet. Keep it simple and mobile-friendly, since most customers use their phone. If anything about what I'm building isn't clear, interview me or ask to clarify instead of guessing.
+Done when: I can browse the sample items and add, remove and change what's in my cart, in my browser.`,
             },
           ],
-          result: "a store you can open in your browser, with items you can add to a cart.",
+          result: "a checkout you can open in your browser, with items you can add to a cart.",
         },
         {
           type: "step",
           anchor: "store-step-2",
-          badge: "Store · Step 2",
+          badge: "Checkout · Step 2",
           title: "Connect a database",
           prompts: [
             {
-              note: "What this does: moves your products and orders into a real database (Supabase) so they're saved properly, instead of living inside the code.",
-              text: `Goal: Move the products and orders into a Supabase database.
+              note: "What this does: moves your items and orders into a real database (Supabase) so they're saved properly, instead of living inside the code.",
+              text: `Goal: Move the items and orders into a Supabase database.
 Context: Use my Supabase project — tell me exactly where to click to copy the project URL and publishable key, then wait for me to paste them.
-Limits: Keep all keys in environment variables, never in the page code. Turn on Row Level Security with policies that let the store read products and create orders, so nothing loads empty.
-Done when: The 3 products load from the database, and placing an order saves a row in an orders table (still no payment yet).`,
+Limits: Keep all keys in environment variables, never in the page code. Turn on Row Level Security with policies that let the checkout read items and create orders, so nothing loads empty.
+Done when: The sample items load from the database, and placing an order saves a row in an orders table (still no payment yet).`,
             },
           ],
           result:
-            "your 3 products loading from the database, and each order saved as a row you can see in Supabase.",
+            "your sample items loading from the database, and each order saved as a row you can see in Supabase.",
           warning:
             "Never share your secret key (sb_secret_…). It belongs in environment variables only.",
         },
         {
           type: "step",
           anchor: "store-step-3",
-          badge: "Store · Step 3",
+          badge: "Checkout · Step 3",
           title: "Connect HitPay",
           prompts: [
             {
@@ -487,7 +483,7 @@ Done when: I can place an order, pay with a HitPay sandbox test card, and land o
         {
           type: "step",
           anchor: "store-step-4",
-          badge: "Store · Step 4",
+          badge: "Checkout · Step 4",
           title: "Put your store online",
           badgeNote: "New to GitHub & Vercel? Codex walks you through each click.",
           prompts: [

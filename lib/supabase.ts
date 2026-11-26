@@ -4,9 +4,9 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 /*
  * Browser-only Supabase client for the Showcase.
- * Auth is magic-link email using the implicit flow: the magic link returns to
- * the Showcase with the session in the URL, and supabase-js picks it up
- * automatically (detectSessionInUrl). Session is persisted in localStorage.
+ * Auth is anonymous sign-in (name only, no email/password) — avoids Supabase's
+ * email rate limits for a room full of attendees. Session is persisted in
+ * localStorage, keyed to the device/browser.
  */
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
