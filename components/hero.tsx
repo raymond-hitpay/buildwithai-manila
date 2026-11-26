@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { CONTENT } from "@/lib/content";
-import { DtiLogo, CommonGroundLogo } from "@/components/icons";
+import { CodexLogo, DtiLogo, CommonGroundLogo } from "@/components/icons";
 import { HeroCta } from "@/components/hero-cta";
 
 export function Hero() {
@@ -65,6 +65,7 @@ export function Hero() {
             {h.supportLabel}
           </span>
           <div className="flex items-center gap-[clamp(18px,3vw,32px)]">
+            <CodexLogo />
             <DtiLogo />
             <CommonGroundLogo />
           </div>

@@ -65,6 +65,18 @@ export function PrereqIcon({ name, size = 42 }: { name: IconName; size?: number 
   );
 }
 
+export function CodexLogo() {
+  return (
+    <Image
+      src="/codex-logo.svg"
+      alt="OpenAI Codex"
+      width={172}
+      height={62}
+      className="h-[clamp(28px,4.3vw,43px)] w-auto"
+    />
+  );
+}
+
 /* Department of Trade and Industry (Philippines) — official logo. */
 export function DtiLogo() {
   return (
