@@ -29,6 +29,19 @@ export const metadata: Metadata = {
     shortcut: "/hitpay-mark.svg",
     apple: "/hitpay-mark.svg",
   },
+  openGraph: {
+    title: "HitPay · Build with AI — Manila",
+    description:
+      "Workshop resources for HitPay Build with AI, Manila. Download files and copy prompts during the session.",
+    siteName: "HitPay Build with AI — Manila",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HitPay · Build with AI — Manila",
+    description:
+      "Workshop resources for HitPay Build with AI, Manila. Download files and copy prompts during the session.",
+  },
 };
 
 export const viewport: Viewport = {
