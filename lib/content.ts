@@ -302,6 +302,11 @@ export const CONTENT = {
           note: "Optional — use this if you don't have your own logo, photos or About text handy.",
         },
         {
+          type: "note",
+          emoji: "💡",
+          text: "Drop your logo and photos into this folder rather than pasting them into the chat. Codex can copy files straight into your project — pasted images get read by the AI each time and burn through tokens much faster.",
+        },
+        {
           type: "step",
           anchor: "website-step-0",
           badge: "Website · Step 0",

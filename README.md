@@ -13,6 +13,7 @@ Built with **Next.js (App Router) + TypeScript + Tailwind CSS v4**.
 | `/resources` | Prerequisites, "Your folders", the three hands-on cards, links, feedback |
 | `/resources/warmup` · `/website` · `/store` | The three hands-on modules, each its own page |
 | `/showcase` | Crowdsourced showcase — paste a link, preview its UI, upvote + react, live |
+| `/admin` | Password-gated — delete any showcase post |
 
 ## Editing content
 
@@ -96,6 +97,22 @@ instead of the gallery, so the rest of the site is unaffected.
   Supabase directly; RLS keeps each person to their own rows.
 - **Live** — a Supabase realtime channel on all three tables refreshes every
   connected browser as entries, votes, and reactions change.
+
+### Admin (`/admin`)
+
+Password-gated page for deleting posts (e.g. spam or test submissions) during
+the event. Set these two **server-only** env vars (never prefix with
+`NEXT_PUBLIC_`, never commit real values) — in `.env.local` for local dev and
+under **Vercel → Project → Settings → Environment Variables** for production:
+
+```
+ADMIN_PASSWORD=choose-any-password
+SUPABASE_SERVICE_ROLE_KEY=xxxx   # Project Settings → API → service_role key (secret)
+```
+
+The service role key is required because deleting someone else's post needs to
+bypass Row Level Security — only the `/api/admin/*` routes use it, and only
+after checking the admin password.
 
 ## Deploy (Vercel)
 
