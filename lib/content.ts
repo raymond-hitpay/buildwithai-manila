@@ -486,6 +486,19 @@ Done when: I can place an order, pay with a HitPay sandbox test card, and land o
             "The HitPay sandbox never charges real money — when Codex is ready to test, ask it which test card to enter at checkout.",
         },
         {
+          type: "prereqs",
+          title: "Need your sandbox keys?",
+          items: [
+            {
+              icon: "hitpay",
+              text: "HitPay sandbox account",
+              href: "https://dashboard.sandbox.hit-pay.com",
+              linkLabel: "dashboard.sandbox.hit-pay.com",
+              qr: "/hitpay-sandbox-qr.png",
+            },
+          ],
+        },
+        {
           type: "step",
           anchor: "store-step-4",
           badge: "Checkout · Step 4",

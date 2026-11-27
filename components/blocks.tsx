@@ -304,11 +304,11 @@ function Prereqs({ block }: { block: PrereqsBlock }) {
                 target="_blank"
                 rel="noopener"
                 className="flex-none rounded-lg border border-line bg-white p-1.5 shadow-sm transition-transform hover:-translate-y-0.5"
-                title="Scan to join on Viber"
+                title={`Scan to open ${item.linkLabel || item.text}`}
               >
                 <Image
                   src={item.qr}
-                  alt="Viber group QR code"
+                  alt={`${item.text} QR code`}
                   width={76}
                   height={76}
                   className="h-[72px] w-[72px] sm:h-[84px] sm:w-[84px]"
